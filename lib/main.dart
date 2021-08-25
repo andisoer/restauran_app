@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/home.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/style/colors.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => HomePage(),
         SearchPage.routeName: (context) => SearchPage(ModalRoute.of(context)?.settings.arguments as String),
+        DetailPage.routeName: (context) => DetailPage()
       },
     );
   }

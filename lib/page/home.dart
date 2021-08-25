@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/style/colors.dart';
 
@@ -79,7 +80,7 @@ class HomePage extends StatelessWidget {
                     child: Text('Explore',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500))),
-                Container(
+                Ink(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -89,70 +90,75 @@ class HomePage extends StatelessWidget {
                             spreadRadius: 1,
                             blurRadius: 10)
                       ]),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 85,
-                        height: 85,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  "https://restaurant-api.dicoding.dev/images/medium/14"),
-                            ),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(8))),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Melting Pot',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, DetailPage.routeName);
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 85,
+                          height: 85,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    "https://restaurant-api.dicoding.dev/images/medium/14"),
                               ),
-                              Container(
-                                  margin: EdgeInsets.only(top: 2),
-                                  child: Text(
-                                    'Medan',
-                                    style: TextStyle(color: Colors.grey),
-                                  )),
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: primaryColor,
-                                      size: 16,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        '4.2',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    )
-                                  ],
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  bottomLeft: Radius.circular(8))),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Melting Pot',
+                                  style: TextStyle(
+                                      fontSize: 18, fontWeight: FontWeight.w700),
                                 ),
-                              )
-                            ],
+                                Container(
+                                    margin: EdgeInsets.only(top: 2),
+                                    child: Text(
+                                      'Medan',
+                                      style: TextStyle(color: Colors.grey),
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: primaryColor,
+                                        size: 16,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 8),
+                                        child: Text(
+                                          '4.2',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: primaryColor,
-                        ),
-                        flex: 1,
-                      )
-                    ],
+                        Expanded(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: primaryColor,
+                          ),
+                          flex: 1,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
