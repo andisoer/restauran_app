@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
             ]),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, DetailPage.routeName);
+            Navigator.pushNamed(context, DetailPage.routeName, arguments: restaurant);
           },
           child: Row(
             children: [
