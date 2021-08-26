@@ -3,6 +3,7 @@ import 'package:restauran_app/data/restaurant.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/style/colors.dart';
+import 'package:restauran_app/style/style.dart';
 
 class HomePage extends StatelessWidget {
   static const routeName = '/home';
@@ -11,33 +12,44 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(245),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _buildHeader(context),
-                FutureBuilder<String>(
-                    future: DefaultAssetBundle.of(context)
-                        .loadString('assets/restaurants.json'),
-                    builder: (context, snapshot) {
-                      final restaurants =
-                          parseRestaurantsFromJson(snapshot.data);
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return _buildRestaurantItem(
-                              context, restaurants[index]);
-                        },
-                        itemCount: restaurants.length,
-                      );
-                    })
-              ],
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 210,
+              decoration: BoxDecoration(
+                  color: primaryColor
+              ),
             ),
-          ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _buildHeader(context),
+                    FutureBuilder<String>(
+                        future: DefaultAssetBundle.of(context)
+                            .loadString('assets/restaurants.json'),
+                        builder: (context, snapshot) {
+                          final restaurants =
+                              parseRestaurantsFromJson(snapshot.data);
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return _buildRestaurantItem(
+                                  context, restaurants[index]);
+                            },
+                            itemCount: restaurants.length,
+                          );
+                        })
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -64,7 +76,10 @@ class HomePage extends StatelessWidget {
                 margin: EdgeInsets.only(left: 16),
                 child: Text(
                   'Welcome !',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ))
           ],
         ),
@@ -72,7 +87,10 @@ class HomePage extends StatelessWidget {
             margin: EdgeInsets.only(top: 24),
             child: Text(
               'Browse the best restaurant in town !',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
             )),
         Container(
           margin: EdgeInsets.only(top: 16),
@@ -115,18 +133,11 @@ class HomePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       child: Ink(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                  color: greyColor.withAlpha(70),
-                  spreadRadius: 1,
-                  blurRadius: 10)
-            ]),
+        decoration: cardDecoration(),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, DetailPage.routeName, arguments: restaurant);
+            Navigator.pushNamed(context, DetailPage.routeName,
+                arguments: restaurant);
           },
           child: Row(
             children: [
