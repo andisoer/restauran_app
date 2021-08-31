@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restauran_app/data/restaurant.dart';
+import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/style/colors.dart';
@@ -52,15 +53,22 @@ class HomePage extends StatelessWidget {
                         "https://i.picsum.photos/id/1005/5760/3840.jpg?hmac=2acSJCOwz9q_dKtDZdSB-OIK1HUcwBeXco_RMMTUgfY",
                       ))),
             ),
-            Container(
-                margin: EdgeInsets.only(left: 16),
-                child: Text(
-                  'Welcome !',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ))
+            Expanded(
+              child: Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child: Text(
+                    'Welcome !',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  )),
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AboutPage.routeName);
+                },
+                icon: Icon(Icons.info, color: Colors.white))
           ],
         ),
         Container(
