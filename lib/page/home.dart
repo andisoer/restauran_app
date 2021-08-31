@@ -19,33 +19,13 @@ class HomePage extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 210,
-              decoration: BoxDecoration(
-                  color: primaryColor
-              ),
+              decoration: BoxDecoration(color: primaryColor),
             ),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  children: [
-                    _buildHeader(context),
-                    FutureBuilder<String>(
-                        future: DefaultAssetBundle.of(context)
-                            .loadString('assets/restaurants.json'),
-                        builder: (context, snapshot) {
-                          final restaurants =
-                              parseRestaurantsFromJsonString(snapshot.data);
-                          return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return buildRestaurantItem(
-                                  context, restaurants[index]);
-                            },
-                            itemCount: restaurants.length,
-                          );
-                        })
-                  ],
+                  children: [_buildHeader(context), _buildList(context)],
                 ),
               ),
             )
@@ -127,5 +107,22 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
       ],
     );
+  }
+
+  Widget _buildList(BuildContext context) {
+    return FutureBuilder<String>(
+        future: DefaultAssetBundle.of(context)
+            .loadString('assets/restaurants.json'),
+        builder: (context, snapshot) {
+          final restaurants = parseRestaurantsFromJsonString(snapshot.data);
+          return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return buildRestaurantItem(context, restaurants[index]);
+            },
+            itemCount: restaurants.length,
+          );
+        });
   }
 }
