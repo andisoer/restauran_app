@@ -32,24 +32,25 @@ class DetailPage extends StatelessWidget {
           ),
         ),
         SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 4),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 6),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: primaryColor,
-                size: 16,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16, left: 4),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: primaryColor,
+                  size: 16,
+                ),
               ),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.white, shape: CircleBorder()),
             ),
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white, shape: CircleBorder()),
-          ),
-        )),
+          )
+        ),
       ],
     );
   }

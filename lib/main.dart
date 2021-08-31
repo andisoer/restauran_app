@@ -17,16 +17,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: primaryColor,
-        accentColor: secondaryColor
-      ),
+          primarySwatch: Colors.blue,
+          primaryColor: primaryColor,
+          accentColor: secondaryColor),
       initialRoute: SplashPage.routeName,
       routes: {
         SplashPage.routeName: (context) => SplashPage(),
         HomePage.routeName: (context) => HomePage(),
-        SearchPage.routeName: (context) => SearchPage(ModalRoute.of(context)?.settings.arguments as String),
-        DetailPage.routeName: (context) => DetailPage(restaurant: ModalRoute.of(context)?.settings.arguments as Restaurant),
+        SearchPage.routeName: (context) =>
+            SearchPage(ModalRoute.of(context)?.settings.arguments as String),
+        DetailPage.routeName: (context) => DetailPage(
+            restaurant:
+                ModalRoute.of(context)?.settings.arguments as Restaurant),
         AboutPage.routeName: (context) => AboutPage()
       },
     );
