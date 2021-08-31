@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:restauran_app/data/restaurant.dart';
 import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/style/colors.dart';
@@ -18,6 +21,9 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   List<Restaurant> restaurants = [];
+  List<Restaurant> unfilteredRestaurants = [];
+
+  late Future _future;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,8 @@ class _SearchPageState extends State<SearchPage> {
                           blurRadius: 10)
                     ]),
                 child: TextFormField(
+                  initialValue: widget.searchQuery,
+                  onChanged: (query) => _searchRestaurants(query),
                   decoration: InputDecoration(
                       hintText: 'Search restaurant...',
                       labelText: null,
@@ -62,36 +70,68 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: restaurants.length > 0
-                    ? ListView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return buildRestaurantItem(
-                        context, restaurants[index]);
-                  },
-                  itemCount: restaurants.length,
-                )
-                    : Center(
-                  child: Text('Ooops, no restaurant found !'),
-                )),
-          )
+              child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: FutureBuilder(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      if (restaurants.length > 0) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return buildRestaurantItem(
+                                context, restaurants[index]);
+                          },
+                          itemCount: restaurants.length,
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                              'Failed to find restaurant you searched for :('),
+                        );
+                      }
+                    },
+                  )))
         ],
       ),
     );
   }
 
-  // void loadRestaurants() {
-  //   var stringAsset = DefaultAssetBundle.of(context)
-  //       .loadString('assets/restaurants.json');
-  //
-  //   parseRestaurantsFromJson(stringAsset);
-  // }
+  Future loadRestaurants() async {
+    var loadedRestaurantAssets =
+        json.decode(await rootBundle.loadString('assets/restaurants.json'));
+
+    var restaurantList = parseRestaurantsFromJson(loadedRestaurantAssets);
+
+    setState(() {
+      restaurants = restaurantList;
+      unfilteredRestaurants = restaurantList;
+    });
+
+    return restaurantList;
+  }
+
+  void _searchRestaurants(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        restaurants = unfilteredRestaurants;
+      });
+    } else {
+      var filteredRestaurant = restaurants
+          .where((restaurant) =>
+              restaurant.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+
+      setState(() {
+        restaurants = filteredRestaurant;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _future = loadRestaurants();
+    _future.then((_) => _searchRestaurants(widget.searchQuery));
   }
 }

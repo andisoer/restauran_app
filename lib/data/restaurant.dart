@@ -1,11 +1,20 @@
 import 'dart:convert';
 
-List<Restaurant> parseRestaurantsFromJson(String? json) {
+List<Restaurant> parseRestaurantsFromJsonString(String? json) {
   if (json == null) {
     return [];
   }
 
   var restaurants = parseFromJson(json);
+  return restaurants.restaurants;
+}
+
+List<Restaurant> parseRestaurantsFromJson(Map<String, dynamic>? json) {
+  if (json == null) {
+    return [];
+  }
+
+  var restaurants = Restaurants.fromJson(json);
   return restaurants.restaurants;
 }
 

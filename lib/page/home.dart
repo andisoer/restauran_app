@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                             .loadString('assets/restaurants.json'),
                         builder: (context, snapshot) {
                           final restaurants =
-                              parseRestaurantsFromJson(snapshot.data);
+                              parseRestaurantsFromJsonString(snapshot.data);
                           return ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
