@@ -25,8 +25,11 @@ class DetailPage extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          child: Image.network(restaurant.pictureId),
+        Hero(
+          tag: restaurant.name,
+          child: Container(
+            child: Image.network(restaurant.pictureId),
+          ),
         ),
         SafeArea(
             child: Padding(

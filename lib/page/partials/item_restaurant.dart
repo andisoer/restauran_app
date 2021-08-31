@@ -16,17 +16,20 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
         },
         child: Row(
           children: [
-            Container(
-              width: 85,
-              height: 85,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(restaurant.pictureId),
-                  ),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8))),
+            Hero(
+              tag: restaurant.name,
+              child: Container(
+                width: 85,
+                height: 85,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(restaurant.pictureId),
+                    ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8))),
+              ),
             ),
             Expanded(
               flex: 3,
