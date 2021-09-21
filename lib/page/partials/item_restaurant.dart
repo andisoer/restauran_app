@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restauran_app/data/restaurant.dart';
+import 'package:restauran_app/data/api/api_service.dart';
+import 'package:restauran_app/data/model/restaurant.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
@@ -24,7 +25,7 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(restaurant.pictureId),
+                      image: NetworkImage(ApiService.urlImageSmall + restaurant.pictureId),
                     ),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8),

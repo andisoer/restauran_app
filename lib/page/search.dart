@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restauran_app/data/restaurant.dart';
-import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
@@ -94,16 +93,19 @@ class _SearchPageState extends State<SearchPage> {
           future: _future,
           builder: (context, snapshot) {
             if (restaurants.length > 0) {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return buildRestaurantItem(
-                    context,
-                    restaurants[index],
-                  );
-                },
-                itemCount: restaurants.length,
+              return Center(
+                child: Text('Failed to find restaurant you searched for :('),
               );
+              // return ListView.builder(
+              //   shrinkWrap: true,
+              //   itemBuilder: (context, index) {
+              //     return buildRestaurantItem(
+              //       context,
+              //       restaurants[index],
+              //     );
+              //   },
+              //   itemCount: restaurants.length,
+              // );
             } else {
               return Center(
                 child: Text('Failed to find restaurant you searched for :('),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restauran_app/data/restaurant.dart';
+import 'package:provider/provider.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/page/search.dart';
+import 'package:restauran_app/provider/restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
@@ -146,23 +147,53 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return FutureBuilder<String>(
-      future:
-          DefaultAssetBundle.of(context).loadString('assets/restaurants.json'),
-      builder: (context, snapshot) {
-        final restaurants = parseRestaurantsFromJsonString(snapshot.data);
-        return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return buildRestaurantItem(
-              context,
-              restaurants[index],
-            );
-          },
-          itemCount: restaurants.length,
-        );
+    return Consumer<RestaurantProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResourceState.Loading) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: primaryColor,
+            ),
+          );
+        } else if (state.state == ResourceState.HasData) {
+          return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return buildRestaurantItem(
+                context,
+                state.restaurantsResult.restaurants[index],
+              );
+            },
+            itemCount: state.restaurantsResult.restaurants.length,
+          );
+        } else if (state.state == ResourceState.NoData) {
+          return Center(child: Text(state.message));
+        } else if (state.state == ResourceState.Error) {
+          return Center(child: Text(state.message));
+        } else {
+          return Center(child: Text(''));
+        }
       },
     );
   }
+//   return FutureBuilder<String>(
+//     future:
+//         DefaultAssetBundle.of(context).loadString('assets/restaurants.json'),
+//     builder: (context, snapshot) {
+//       final restaurants = parseRestaurantsFromJsonString(snapshot.data);
+//       return ListView.builder(
+//         physics: NeverScrollableScrollPhysics(),
+//         shrinkWrap: true,
+//         itemBuilder: (context, index) {
+//           return buildRestaurantItem(
+//             context,
+//             restaurants[index],
+//           );
+//         },
+//         itemCount: restaurants.length,
+//       );
+//     },
+//   );
+// }
 }

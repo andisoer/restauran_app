@@ -22,7 +22,6 @@ class RestaurantResult {
       );
 }
 
-
 /// Detail Restaurant Respond
 class DetailRestaurantResult {
   DetailRestaurantResult({
@@ -73,11 +72,17 @@ class Restaurant {
         pictureId: json["pictureId"],
         city: json["city"],
         rating: json["rating"].toDouble(),
-        categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
-        menus: Menus.fromJson(json["menus"]),
-        customerReviews: List<CustomerReview>.from(
-            json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+        // categories: List<Category>.from(
+        //   json["categories"]?.map(
+        //     (x) => Category.fromJson(x),
+        //   ),
+        // ),
+        // menus: Menus.fromJson(json["menus"]),
+        // customerReviews: List<CustomerReview>.from(
+        //   json["customerReviews"]?.map(
+        //     (x) => CustomerReview.fromJson(x),
+        //   ),
+        // ),
       );
 }
 

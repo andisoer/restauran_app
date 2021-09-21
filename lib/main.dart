@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restauran_app/data/api/api_service.dart';
 import 'package:restauran_app/data/restaurant.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/home.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/page/splash.dart';
+import 'package:restauran_app/provider/restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 
 void main() {
@@ -23,7 +26,10 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashPage.routeName,
       routes: {
         SplashPage.routeName: (context) => SplashPage(),
-        HomePage.routeName: (context) => HomePage(),
+        HomePage.routeName: (context) => ChangeNotifierProvider(
+              create: (_) => RestaurantProvider(apiService: ApiService()),
+              child: HomePage(),
+            ),
         SearchPage.routeName: (context) =>
             SearchPage(ModalRoute.of(context)?.settings.arguments as String),
         DetailPage.routeName: (context) => DetailPage(

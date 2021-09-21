@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:restauran_app/data/model/restaurant.dart';
 
 class ApiService {
+  static final String urlImageSmall = "https://restaurant-api.dicoding.dev/images/small/";
+
   static final String _baseUrl = "https://restaurant-api.dicoding.dev/";
 
   Future<RestaurantResult> listRestaurant() async {
