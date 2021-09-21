@@ -16,7 +16,10 @@ class DetailPage extends StatelessWidget {
       backgroundColor: Colors.white.withAlpha(245),
       body: SingleChildScrollView(
         child: Column(
-          children: [_buildHeader(context), _buildContent(context)],
+          children: [
+            _buildHeader(context),
+            _buildContent(context),
+          ],
         ),
       ),
     );
@@ -33,7 +36,10 @@ class DetailPage extends StatelessWidget {
         ),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(top: 16, left: 4),
+            padding: const EdgeInsets.only(
+              top: 16,
+              left: 4,
+            ),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -47,9 +53,11 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Colors.white, shape: CircleBorder()),
+                primary: Colors.white,
+                shape: CircleBorder(),
+              ),
             ),
-          )
+          ),
         ),
       ],
     );
@@ -59,7 +67,10 @@ class DetailPage extends StatelessWidget {
     return Container(
       transform: Matrix4.translationValues(0.0, -30.0, 0),
       child: Column(
-        children: [_buildAbout(context), _buildMenu(context)],
+        children: [
+          _buildAbout(context),
+          _buildMenu(context),
+        ],
       ),
     );
   }
@@ -69,46 +80,71 @@ class DetailPage extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
       decoration: cardDecoration(),
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      padding: EdgeInsets.symmetric(
+        vertical: 16,
+        horizontal: 12,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(restaurant.name, style: Theme.of(context).textTheme.headline4),
+          Text(
+            restaurant.name,
+            style: Theme.of(context).textTheme.headline4,
+          ),
           Container(
             margin: EdgeInsets.only(top: 8),
             child: IntrinsicHeight(
               child: Row(
                 children: [
-                  Icon(Icons.star, color: primaryColor, size: 16),
+                  Icon(
+                    Icons.star,
+                    color: primaryColor,
+                    size: 16,
+                  ),
                   Container(
-                      margin: EdgeInsets.only(left: 4),
-                      child: Text(restaurant.rating.toString(),
-                          style: Theme.of(context).textTheme.caption)),
+                    margin: EdgeInsets.only(left: 4),
+                    child: Text(
+                      restaurant.rating.toString(),
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
                   Container(
-                      margin: EdgeInsets.only(left: 12),
-                      child: VerticalDivider(
-                        thickness: 1.5,
-                      )),
+                    margin: EdgeInsets.only(left: 12),
+                    child: VerticalDivider(thickness: 1.5),
+                  ),
                   Container(
-                      margin: EdgeInsets.only(left: 12),
-                      child: Icon(Icons.location_on,
-                          color: primaryColor, size: 16)),
+                    margin: EdgeInsets.only(left: 12),
+                    child: Icon(
+                      Icons.location_on,
+                      color: primaryColor,
+                      size: 16,
+                    ),
+                  ),
                   Container(
-                      margin: EdgeInsets.only(left: 4),
-                      child: Text(restaurant.city,
-                          style: Theme.of(context).textTheme.caption))
+                    margin: EdgeInsets.only(left: 4),
+                    child: Text(
+                      restaurant.city,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  )
                 ],
               ),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(top: 14),
-              child:
-                  Text('About', style: Theme.of(context).textTheme.headline6)),
+            margin: EdgeInsets.only(top: 14),
+            child: Text(
+              'About',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
           Container(
-              margin: EdgeInsets.only(top: 4),
-              child: Text(restaurant.description,
-                  style: Theme.of(context).textTheme.bodyText2))
+            margin: EdgeInsets.only(top: 4),
+            child: Text(
+              restaurant.description,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          )
         ],
       ),
     );
@@ -117,7 +153,10 @@ class DetailPage extends StatelessWidget {
   Widget _buildMenu(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      margin: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 16,
+      ),
       padding: EdgeInsets.all(12),
       decoration: cardDecoration(),
       child: Column(
@@ -128,7 +167,9 @@ class DetailPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
           Container(
-              margin: EdgeInsets.only(top: 8, bottom: 4), child: Text('Foods')),
+            margin: EdgeInsets.only(top: 8, bottom: 4),
+            child: Text('Foods'),
+          ),
           Container(
             height: 33,
             child: ListView.builder(
@@ -140,18 +181,24 @@ class DetailPage extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.only(right: 8),
                   padding: EdgeInsets.all(8),
-                  child: Text(food.name,
-                      style: TextStyle(fontWeight: FontWeight.w300)),
+                  child: Text(
+                    food.name,
+                    style: TextStyle(fontWeight: FontWeight.w300),
+                  ),
                   decoration: BoxDecoration(
-                      color: Colors.grey.withAlpha(25),
-                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                    color: Colors.grey.withAlpha(25),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4),
+                    ),
+                  ),
                 );
               },
             ),
           ),
           Container(
-              margin: EdgeInsets.only(top: 12, bottom: 4),
-              child: Text('Drinks')),
+            margin: EdgeInsets.only(top: 12, bottom: 4),
+            child: Text('Drinks'),
+          ),
           Container(
             height: 33,
             child: ListView.builder(
@@ -163,11 +210,16 @@ class DetailPage extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.only(right: 8),
                   padding: EdgeInsets.all(8),
-                  child: Text(drink.name,
-                      style: TextStyle(fontWeight: FontWeight.w300)),
+                  child: Text(
+                    drink.name,
+                    style: TextStyle(fontWeight: FontWeight.w300),
+                  ),
                   decoration: BoxDecoration(
-                      color: Colors.grey.withAlpha(25),
-                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                    color: Colors.grey.withAlpha(25),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4),
+                    ),
+                  ),
                 );
               },
             ),

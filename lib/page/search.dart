@@ -28,7 +28,10 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [_buildSearchbar(), _buildList()],
+        children: [
+          _buildSearchbar(),
+          _buildList(),
+        ],
       ),
     );
   }
@@ -38,37 +41,45 @@ class _SearchPageState extends State<SearchPage> {
       color: primaryColor,
       child: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          margin: EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 16,
+          ),
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              boxShadow: [
-                BoxShadow(
-                    color: greyColor.withAlpha(70),
-                    spreadRadius: 1,
-                    blurRadius: 10)
-              ]),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: greyColor.withAlpha(70),
+                spreadRadius: 1,
+                blurRadius: 10,
+              )
+            ],
+          ),
           child: TextFormField(
             initialValue: widget.searchQuery,
             onChanged: (query) => _searchRestaurants(query),
             decoration: InputDecoration(
-                hintText: 'Search restaurant...',
-                labelText: null,
-                enabledBorder: searchTextFieldFormStyle(),
-                border: searchTextFieldFormStyle(),
-                focusedBorder: searchTextFieldFormStyle(),
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(left: 8),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: primaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+              hintText: 'Search restaurant...',
+              labelText: null,
+              enabledBorder: searchTextFieldFormStyle(),
+              border: searchTextFieldFormStyle(),
+              focusedBorder: searchTextFieldFormStyle(),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: primaryColor,
                   ),
-                )),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -77,27 +88,31 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildList() {
     return Expanded(
-        child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            child: FutureBuilder(
-              future: _future,
-              builder: (context, snapshot) {
-                if (restaurants.length > 0) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return buildRestaurantItem(context, restaurants[index]);
-                    },
-                    itemCount: restaurants.length,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 16),
+        child: FutureBuilder(
+          future: _future,
+          builder: (context, snapshot) {
+            if (restaurants.length > 0) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return buildRestaurantItem(
+                    context,
+                    restaurants[index],
                   );
-                } else {
-                  return Center(
-                    child:
-                        Text('Failed to find restaurant you searched for :('),
-                  );
-                }
-              },
-            )));
+                },
+                itemCount: restaurants.length,
+              );
+            } else {
+              return Center(
+                child: Text('Failed to find restaurant you searched for :('),
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 
   Future loadRestaurants() async {
