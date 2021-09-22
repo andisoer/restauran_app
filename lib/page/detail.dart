@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/data/api/api_service.dart';
 import 'package:restauran_app/data/model/detail_restaurant.dart';
 import 'package:restauran_app/provider/detail_restaurant_provider.dart';
@@ -59,13 +60,7 @@ class DetailPage extends StatelessWidget {
     return Consumer<DetailRestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResourceState.Loading) {
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            ),
-          );
+          return circularProgressIndicator();
         } else if (state.state == ResourceState.HasData) {
           return SingleChildScrollView(
             child: Column(
@@ -210,20 +205,7 @@ class DetailPage extends StatelessWidget {
               itemCount: restaurant.menus.foods.length,
               itemBuilder: (context, index) {
                 var food = restaurant.menus.foods[index];
-                return Container(
-                  margin: EdgeInsets.only(right: 8),
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    food.name,
-                    style: TextStyle(fontWeight: FontWeight.w300),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withAlpha(25),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                  ),
-                );
+                return _buildMenuItem(food.name);
               },
             ),
           ),
@@ -239,20 +221,7 @@ class DetailPage extends StatelessWidget {
               itemCount: restaurant.menus.drinks.length,
               itemBuilder: (context, index) {
                 var drink = restaurant.menus.drinks[index];
-                return Container(
-                  margin: EdgeInsets.only(right: 8),
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    drink.name,
-                    style: TextStyle(fontWeight: FontWeight.w300),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withAlpha(25),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                  ),
-                );
+                return _buildMenuItem(drink.name);
               },
             ),
           ),
@@ -284,62 +253,84 @@ class DetailPage extends StatelessWidget {
             itemCount: restaurant.customerReviews.length,
             itemBuilder: (context, index) {
               var review = restaurant.customerReviews[index];
-              return Container(
-                margin: EdgeInsets.only(top: 8),
-                padding: EdgeInsets.all(8),
+              return _buildReviewItem(review);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewItem(CustomerReview review) {
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      padding: EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 45,
+                height: 45,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                      "https://picsum.photos/id/1005/300/300",
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                "https://picsum.photos/id/1005/300/300",
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                review.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: Text(
-                                  review.date,
-                                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Text(
+                      review.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Text(
-                        review.review,
+                        review.date,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
                       ),
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 8),
+            child: Text(
+              review.review,
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(String menuName) {
+    return Container(
+      margin: EdgeInsets.only(right: 8),
+      padding: EdgeInsets.all(8),
+      child: Text(
+        menuName,
+        style: TextStyle(fontWeight: FontWeight.w300),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.withAlpha(25),
+        borderRadius: BorderRadius.all(
+          Radius.circular(4),
+        ),
       ),
     );
   }

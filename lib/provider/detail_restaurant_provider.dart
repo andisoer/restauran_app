@@ -3,15 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:restauran_app/data/api/api_service.dart';
 import 'package:restauran_app/data/model/detail_restaurant.dart';
 
-enum ResourceState {
-  Loading, NoData, HasData, Error
-}
+enum ResourceState { Loading, NoData, HasData, Error }
 
 class DetailRestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
   final String restaurantId;
 
-  DetailRestaurantProvider({required this.apiService, required this.restaurantId}) {
+  DetailRestaurantProvider(
+      {required this.apiService, required this.restaurantId}) {
     _fetchDetailRestaurant();
   }
 
@@ -27,7 +26,6 @@ class DetailRestaurantProvider extends ChangeNotifier {
 
   Future<dynamic> _fetchDetailRestaurant() async {
     try {
-
       _state = ResourceState.Loading;
       notifyListeners();
 
@@ -35,11 +33,11 @@ class DetailRestaurantProvider extends ChangeNotifier {
       _state = ResourceState.HasData;
       notifyListeners();
       return _detailRestaurantResult = data;
-
     } on SocketException catch (_) {
       _state = ResourceState.Error;
       notifyListeners();
-      return _message = "Problem with your internet connection, please try again";
+      return _message =
+          "Problem with your internet connection, please try again";
     } catch (e) {
       _state = ResourceState.Error;
       notifyListeners();

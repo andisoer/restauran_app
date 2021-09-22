@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restauran_app/page/partials/item_restaurant.dart';
+import 'package:restauran_app/widget/common.dart';
+import 'package:restauran_app/widget/item_restaurant.dart';
 import 'package:restauran_app/provider/search_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
-class SearchPage extends StatefulWidget {
+class SearchPage extends StatelessWidget {
   static final routeName = '/search';
 
   final String searchQuery;
@@ -13,23 +14,18 @@ class SearchPage extends StatefulWidget {
   const SearchPage(this.searchQuery);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
-}
-
-class _SearchPageState extends State<SearchPage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          _buildSearchbar(),
+          _buildSearchbar(context),
           _buildList(),
         ],
       ),
     );
   }
 
-  Widget _buildSearchbar() {
+  Widget _buildSearchbar(BuildContext context) {
     return Container(
       color: primaryColor,
       child: SafeArea(
@@ -52,8 +48,8 @@ class _SearchPageState extends State<SearchPage> {
             ],
           ),
           child: TextFormField(
-            initialValue: widget.searchQuery,
-            onFieldSubmitted: (query) => _searchRestaurants(query),
+            initialValue: searchQuery,
+            onFieldSubmitted: (query) => _searchRestaurants(context, query),
             decoration: InputDecoration(
               hintText: 'Search restaurant...',
               labelText: null,
@@ -84,11 +80,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Consumer<SearchRestaurantProvider>(
         builder: (context, state, _) {
           if (state.state == ResourceState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            );
+            return circularProgressIndicator();
           } else if (state.state == ResourceState.HasData) {
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
@@ -116,13 +108,8 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  void _searchRestaurants(String query) {
+  void _searchRestaurants(BuildContext context, String query) {
     Provider.of<SearchRestaurantProvider>(context, listen: false)
         .searchRestaurant(query);
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }

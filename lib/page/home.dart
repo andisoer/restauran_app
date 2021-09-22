@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/page/about.dart';
-import 'package:restauran_app/page/partials/item_restaurant.dart';
+import 'package:restauran_app/widget/item_restaurant.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/provider/list_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
@@ -150,11 +151,7 @@ class HomePage extends StatelessWidget {
     return Consumer<ListRestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResourceState.Loading) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: primaryColor,
-            ),
-          );
+          return circularProgressIndicator();
         } else if (state.state == ResourceState.HasData) {
           return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
