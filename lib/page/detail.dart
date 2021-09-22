@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restauran_app/data/api/api_service.dart';
@@ -288,15 +289,54 @@ class DetailPage extends StatelessWidget {
               return Container(
                 margin: EdgeInsets.only(top: 8),
                 padding: EdgeInsets.all(8),
-                child: Text(
-                  review.name,
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(25),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(
+                                "https://picsum.photos/id/1005/300/300",
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                review.name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 8),
+                                child: Text(
+                                  review.date,
+                                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8),
+                      child: Text(
+                        review.review,
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
