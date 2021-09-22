@@ -36,7 +36,7 @@ class SearchRestaurantProvider extends ChangeNotifier {
       if (data.restaurants.isEmpty) {
         _state = ResourceState.NoData;
         notifyListeners();
-        return _message = "Restaurant not found, try other keyword";
+        return _message = "Restaurant not found, try other keyword.";
       } else {
         _state = ResourceState.HasData;
         notifyListeners();
@@ -46,7 +46,7 @@ class SearchRestaurantProvider extends ChangeNotifier {
     } on SocketException catch (_) {
       _state = ResourceState.Error;
       notifyListeners();
-      return _message = "Problem with your internet connection, please try again";
+      return _message = "Problem with your internet connection, please try again.";
     } catch (e) {
       _state = ResourceState.Error;
       notifyListeners();

@@ -21,10 +21,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<Restaurant> restaurants = [];
-  List<Restaurant> unfilteredRestaurants = [];
+  // List<Restaurant> restaurants = [];
+  // List<Restaurant> unfilteredRestaurants = [];
 
-  late Future _future;
+  // late Future _future;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,8 @@ class _SearchPageState extends State<SearchPage> {
           ),
           child: TextFormField(
             initialValue: widget.searchQuery,
-            onChanged: (query) => _searchRestaurants(query),
+            onFieldSubmitted: (query) => _searchRestaurants(query),
+            // onChanged: (query) => _searchRestaurants(query),
             decoration: InputDecoration(
               hintText: 'Search restaurant...',
               labelText: null,
@@ -99,20 +100,20 @@ class _SearchPageState extends State<SearchPage> {
               ),
             );
           } else if (state.state == ResourceState.HasData) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(top: 8),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return buildRestaurantItem(
-                      context,
-                      state.searchResult.restaurants[index],
-                    );
-                  },
-                  itemCount: restaurants.length,
-                ),
-              );
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 8),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return buildRestaurantItem(
+                    context,
+                    state.searchResult.restaurants[index],
+                  );
+                },
+                itemCount: state.searchResult.restaurants.length,
+              ),
+            );
           } else if (state.state == ResourceState.NoData) {
             return Center(child: Text(state.message));
           } else if (state.state == ResourceState.Error) {
@@ -157,35 +158,23 @@ class _SearchPageState extends State<SearchPage> {
 
     var restaurantList = parseRestaurantsFromJson(loadedRestaurantAssets);
 
-    setState(() {
-      restaurants = restaurantList;
-      unfilteredRestaurants = restaurantList;
-    });
+    // setState(() {
+    //   restaurants = restaurantList;
+    //   unfilteredRestaurants = restaurantList;
+    // });
 
     return restaurantList;
   }
 
   void _searchRestaurants(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        restaurants = unfilteredRestaurants;
-      });
-    } else {
-      var filteredRestaurant = restaurants
-          .where((restaurant) =>
-              restaurant.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-
-      setState(() {
-        restaurants = filteredRestaurant;
-      });
-    }
+    Provider.of<SearchRestaurantProvider>(context, listen: false)
+        .searchRestaurant(query);
   }
 
   @override
   void initState() {
     super.initState();
-    _future = loadRestaurants();
-    _future.then((_) => _searchRestaurants(widget.searchQuery));
+    // _future = loadRestaurants();
+    // _future.then((_) => _searchRestaurants(widget.searchQuery));
   }
 }
