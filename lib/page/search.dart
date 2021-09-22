@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:restauran_app/data/restaurant.dart';
+import 'package:restauran_app/page/partials/item_restaurant.dart';
+import 'package:restauran_app/provider/search_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
@@ -87,34 +90,65 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildList() {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
-        child: FutureBuilder(
-          future: _future,
-          builder: (context, snapshot) {
-            if (restaurants.length > 0) {
-              return Center(
-                child: Text('Failed to find restaurant you searched for :('),
+      child: Consumer<SearchRestaurantProvider>(
+        builder: (context, state, _) {
+          if (state.state == ResourceState.Loading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          } else if (state.state == ResourceState.HasData) {
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: 8),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return buildRestaurantItem(
+                      context,
+                      state.searchResult.restaurants[index],
+                    );
+                  },
+                  itemCount: restaurants.length,
+                ),
               );
-              // return ListView.builder(
-              //   shrinkWrap: true,
-              //   itemBuilder: (context, index) {
-              //     return buildRestaurantItem(
-              //       context,
-              //       restaurants[index],
-              //     );
-              //   },
-              //   itemCount: restaurants.length,
-              // );
-            } else {
-              return Center(
-                child: Text('Failed to find restaurant you searched for :('),
-              );
-            }
-          },
-        ),
+          } else if (state.state == ResourceState.NoData) {
+            return Center(child: Text(state.message));
+          } else if (state.state == ResourceState.Error) {
+            return Center(child: Text(state.message));
+          } else {
+            return Center(child: Text(''));
+          }
+        },
       ),
     );
+    // return Expanded(
+    //   child: Container(
+    //     margin: EdgeInsets.symmetric(horizontal: 16),
+    //     child: FutureBuilder(
+    //       future: _future,
+    //       builder: (context, snapshot) {
+    //         if (restaurants.length > 0) {
+    //           return ListView.builder(
+    //             shrinkWrap: true,
+    //             itemBuilder: (context, index) {
+    //               return buildRestaurantItem(
+    //                 context,
+    //                 restaurants[index],
+    //               );
+    //             },
+    //             itemCount: restaurants.length,
+    //           );
+    //         } else {
+    //           return Center(
+    //             child: Text('Failed to find restaurant you searched for :('),
+    //           );
+    //         }
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
   Future loadRestaurants() async {

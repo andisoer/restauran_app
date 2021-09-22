@@ -8,6 +8,7 @@ import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/page/splash.dart';
 import 'package:restauran_app/provider/detail_restaurant_provider.dart';
 import 'package:restauran_app/provider/list_restaurant_provider.dart';
+import 'package:restauran_app/provider/search_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 
 void main() {
@@ -30,8 +31,15 @@ class MyApp extends StatelessWidget {
               create: (_) => ListRestaurantProvider(apiService: ApiService()),
               child: HomePage(),
             ),
-        SearchPage.routeName: (context) =>
-            SearchPage(ModalRoute.of(context)?.settings.arguments as String),
+        SearchPage.routeName: (context) => ChangeNotifierProvider(
+              create: (_) => SearchRestaurantProvider(
+                apiService: ApiService(),
+                query: ModalRoute.of(context)?.settings.arguments as String,
+              ),
+              child: SearchPage(
+                ModalRoute.of(context)?.settings.arguments as String,
+              ),
+            ),
         DetailPage.routeName: (context) => ChangeNotifierProvider(
               create: (_) => DetailRestaurantProvider(
                   apiService: ApiService(),
