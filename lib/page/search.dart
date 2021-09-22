@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:restauran_app/data/restaurant.dart';
 import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/provider/search_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
@@ -21,11 +17,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  // List<Restaurant> restaurants = [];
-  // List<Restaurant> unfilteredRestaurants = [];
-
-  // late Future _future;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +54,6 @@ class _SearchPageState extends State<SearchPage> {
           child: TextFormField(
             initialValue: widget.searchQuery,
             onFieldSubmitted: (query) => _searchRestaurants(query),
-            // onChanged: (query) => _searchRestaurants(query),
             decoration: InputDecoration(
               hintText: 'Search restaurant...',
               labelText: null,
@@ -124,46 +114,6 @@ class _SearchPageState extends State<SearchPage> {
         },
       ),
     );
-    // return Expanded(
-    //   child: Container(
-    //     margin: EdgeInsets.symmetric(horizontal: 16),
-    //     child: FutureBuilder(
-    //       future: _future,
-    //       builder: (context, snapshot) {
-    //         if (restaurants.length > 0) {
-    //           return ListView.builder(
-    //             shrinkWrap: true,
-    //             itemBuilder: (context, index) {
-    //               return buildRestaurantItem(
-    //                 context,
-    //                 restaurants[index],
-    //               );
-    //             },
-    //             itemCount: restaurants.length,
-    //           );
-    //         } else {
-    //           return Center(
-    //             child: Text('Failed to find restaurant you searched for :('),
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
-  }
-
-  Future loadRestaurants() async {
-    var loadedRestaurantAssets =
-        json.decode(await rootBundle.loadString('assets/restaurants.json'));
-
-    var restaurantList = parseRestaurantsFromJson(loadedRestaurantAssets);
-
-    // setState(() {
-    //   restaurants = restaurantList;
-    //   unfilteredRestaurants = restaurantList;
-    // });
-
-    return restaurantList;
   }
 
   void _searchRestaurants(String query) {
@@ -174,7 +124,5 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    // _future = loadRestaurants();
-    // _future.then((_) => _searchRestaurants(widget.searchQuery));
   }
 }

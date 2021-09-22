@@ -23,13 +23,16 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                 width: 85,
                 height: 85,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(ApiService.urlImageSmall + restaurant.pictureId),
-                    ),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8))),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        ApiService.urlImageSmall + restaurant.pictureId),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -48,11 +51,12 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                       softWrap: false,
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 2),
-                        child: Text(
-                          restaurant.city,
-                          style: TextStyle(color: Colors.grey),
-                        )),
+                      margin: EdgeInsets.only(top: 2),
+                      child: Text(
+                        restaurant.city,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Row(

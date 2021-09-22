@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(
-                    "https://i.picsum.photos/id/1005/5760/3840.jpg?hmac=2acSJCOwz9q_dKtDZdSB-OIK1HUcwBeXco_RMMTUgfY",
+                    "https://picsum.photos/id/1005/300/300",
                   ),
                 ),
               ),
@@ -177,23 +177,4 @@ class HomePage extends StatelessWidget {
       },
     );
   }
-//   return FutureBuilder<String>(
-//     future:
-//         DefaultAssetBundle.of(context).loadString('assets/restaurants.json'),
-//     builder: (context, snapshot) {
-//       final restaurants = parseRestaurantsFromJsonString(snapshot.data);
-//       return ListView.builder(
-//         physics: NeverScrollableScrollPhysics(),
-//         shrinkWrap: true,
-//         itemBuilder: (context, index) {
-//           return buildRestaurantItem(
-//             context,
-//             restaurants[index],
-//           );
-//         },
-//         itemCount: restaurants.length,
-//       );
-//     },
-//   );
-// }
 }
