@@ -7,11 +7,12 @@ enum ResourceState { Loading, NoData, HasData, Error }
 
 class DetailRestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
-  final String restaurantId;
 
-  DetailRestaurantProvider(
-      {required this.apiService, required this.restaurantId}) {
-    _fetchDetailRestaurant();
+  DetailRestaurantProvider({
+    required this.apiService,
+    required String restaurantId,
+  }) {
+    fetchDetailRestaurant(restaurantId);
   }
 
   late DetailRestaurantResult _detailRestaurantResult;
@@ -20,11 +21,12 @@ class DetailRestaurantProvider extends ChangeNotifier {
   late ResourceState _state;
 
   String get message => _message;
+
   ResourceState get state => _state;
 
   DetailRestaurantResult get restaurantsResult => _detailRestaurantResult;
 
-  Future<dynamic> _fetchDetailRestaurant() async {
+  Future<dynamic> fetchDetailRestaurant(String restaurantId) async {
     try {
       _state = ResourceState.Loading;
       notifyListeners();

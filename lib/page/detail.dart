@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/provider/review_restaurant_provider.dart';
 import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/data/api/api_service.dart';
 import 'package:restauran_app/data/model/detail_restaurant.dart';
@@ -256,6 +257,13 @@ class DetailPage extends StatelessWidget {
               return _buildReviewItem(review);
             },
           ),
+          TextButton(
+            onPressed: () {
+              showRatingFormDialog(context, restaurant);
+            },
+            child: Text('Been here ? Rate this place'),
+            style: TextButton.styleFrom(primary: primaryColor),
+          )
         ],
       ),
     );
@@ -333,5 +341,88 @@ class DetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showRatingFormDialog(BuildContext context, Restaurant restaurant) {
+    var name = "";
+    var review = "";
+    AlertDialog ratingDialog = AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Fill rating form',
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.cancel, color: greyColor),
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            child: Text('Name'),
+          ),
+          TextFormField(
+            onChanged: (value) => name = value,
+            decoration:
+                InputDecoration(labelText: null, hintText: 'Input your name'),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            child: Text('Review about ${restaurant.name}'),
+          ),
+          TextFormField(
+            onChanged: (value) => review = value,
+            decoration:
+                InputDecoration(labelText: null, hintText: 'Input your review'),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 40),
+                primary: primaryColor,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                submitReview(name, review, restaurant.id, context);
+              },
+              child: Text('Submit Review'),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ratingDialog;
+      },
+    );
+  }
+
+  void submitReview(
+    String name,
+    String review,
+    String restaurantId,
+    BuildContext context,
+  ) {
+    Provider.of<ReviewRestaurantProvider>(context, listen: false).postReview(
+      restaurantId,
+      name,
+      review,
+    );
+
+    Provider.of<DetailRestaurantProvider>(context, listen: false)
+        .fetchDetailRestaurant(restaurantId);
   }
 }
