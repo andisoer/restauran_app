@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
-import 'package:restauran_app/data/model/restaurant.dart';
+import 'package:restauran_app/data/model/detail_restaurant.dart';
+import 'package:restauran_app/data/model/list_restaurant.dart';
 
 class ApiService {
   static final String urlImageSmall = "https://restaurant-api.dicoding.dev/images/small/";
+  static final String urlImageMedium = "https://restaurant-api.dicoding.dev/images/medium/";
 
   static final String _baseUrl = "https://restaurant-api.dicoding.dev/";
 

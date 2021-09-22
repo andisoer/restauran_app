@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/partials/item_restaurant.dart';
 import 'package:restauran_app/page/search.dart';
-import 'package:restauran_app/provider/restaurant_provider.dart';
+import 'package:restauran_app/provider/list_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return Consumer<RestaurantProvider>(
+    return Consumer<ListRestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResourceState.Loading) {
           return Center(

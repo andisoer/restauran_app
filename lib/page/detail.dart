@@ -1,46 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:restauran_app/data/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:restauran_app/data/api/api_service.dart';
+import 'package:restauran_app/data/model/detail_restaurant.dart';
+
+// import 'package:restauran_app/data/restaurant.dart';
+import 'package:restauran_app/provider/detail_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
 class DetailPage extends StatelessWidget {
   static final routeName = '/detail';
 
-  final Restaurant restaurant;
-
-  const DetailPage({required this.restaurant});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(245),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            _buildContent(context),
-          ],
-        ),
+      body: Stack(
+        children: [
+          _buildContent(context),
+          _buildNavigation(context),
+        ],
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Stack(
-      children: [
-        Hero(
-          tag: restaurant.name,
-          child: Container(
-            child: Image.network(restaurant.pictureId),
-          ),
+  Widget _buildNavigation(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 16,
+          left: 4,
         ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 16,
-              left: 4,
-            ),
-            child: ElevatedButton(
+        child: Row(
+          children: [
+            ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -56,6 +49,61 @@ class DetailPage extends StatelessWidget {
                 primary: Colors.white,
                 shape: CircleBorder(),
               ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return Consumer<DetailRestaurantProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResourceState.Loading) {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            ),
+          );
+        } else if (state.state == ResourceState.HasData) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildHeaderImage(state.restaurantsResult.restaurant),
+                Container(
+                  transform: Matrix4.translationValues(0.0, -30.0, 0),
+                  child: Column(
+                    children: [
+                      _buildAbout(context, state.restaurantsResult.restaurant),
+                      _buildMenu(context, state.restaurantsResult.restaurant),
+                      _buildReview(context, state.restaurantsResult.restaurant)
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else if (state.state == ResourceState.NoData) {
+          return Center(child: Text(state.message));
+        } else if (state.state == ResourceState.Error) {
+          return Center(child: Text(state.message));
+        } else {
+          return Center(child: Text(''));
+        }
+      },
+    );
+  }
+
+  Stack _buildHeaderImage(Restaurant restaurant) {
+    return Stack(
+      children: [
+        Hero(
+          tag: restaurant.name,
+          child: Container(
+            child: Image.network(
+              ApiService.urlImageSmall + restaurant.pictureId,
             ),
           ),
         ),
@@ -63,19 +111,7 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
-    return Container(
-      transform: Matrix4.translationValues(0.0, -30.0, 0),
-      child: Column(
-        children: [
-          _buildAbout(context),
-          _buildMenu(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAbout(BuildContext context) {
+  Widget _buildAbout(BuildContext context, Restaurant restaurant) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
@@ -150,13 +186,10 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenu(BuildContext context) {
+  Widget _buildMenu(BuildContext context, Restaurant restaurant) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
+      margin: EdgeInsets.only(left: 16, right: 16, top: 16),
       padding: EdgeInsets.all(12),
       decoration: cardDecoration(),
       child: Column(
@@ -223,6 +256,50 @@ class DetailPage extends StatelessWidget {
                 );
               },
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReview(BuildContext context, Restaurant restaurant) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 16,
+      ),
+      padding: EdgeInsets.all(12),
+      decoration: cardDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Review',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          ListView.builder(
+            padding: EdgeInsets.only(top: 0),
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: restaurant.customerReviews.length,
+            itemBuilder: (context, index) {
+              var review = restaurant.customerReviews[index];
+              return Container(
+                margin: EdgeInsets.only(top: 8),
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  review.name,
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withAlpha(25),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(4),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

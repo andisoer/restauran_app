@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:restauran_app/data/api/api_service.dart';
-import 'package:restauran_app/data/model/restaurant.dart';
+import 'package:restauran_app/data/model/list_restaurant.dart';
 
 enum ResourceState {
   Loading, NoData, HasData, Error
 }
 
-class RestaurantProvider extends ChangeNotifier {
+class ListRestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
 
-  RestaurantProvider({required this.apiService}) {
+  ListRestaurantProvider({required this.apiService}) {
     _fetchRestaurants();
   }
 

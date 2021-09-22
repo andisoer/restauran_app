@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restauran_app/data/api/api_service.dart';
-import 'package:restauran_app/data/model/restaurant.dart';
+import 'package:restauran_app/data/model/list_restaurant.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
@@ -13,7 +13,7 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, DetailPage.routeName,
-              arguments: restaurant);
+              arguments: restaurant.id);
         },
         child: Row(
           children: [
