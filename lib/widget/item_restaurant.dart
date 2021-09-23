@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restauran_app/data/restaurant.dart';
+import 'package:restauran_app/data/api/api_service.dart';
+import 'package:restauran_app/data/model/list_restaurant.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
@@ -12,7 +13,7 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, DetailPage.routeName,
-              arguments: restaurant);
+              arguments: restaurant.id);
         },
         child: Row(
           children: [
@@ -22,13 +23,16 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                 width: 85,
                 height: 85,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(restaurant.pictureId),
-                    ),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8))),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        ApiService.urlImageSmall + restaurant.pictureId),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -47,11 +51,12 @@ Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                       softWrap: false,
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 2),
-                        child: Text(
-                          restaurant.city,
-                          style: TextStyle(color: Colors.grey),
-                        )),
+                      margin: EdgeInsets.only(top: 2),
+                      child: Text(
+                        restaurant.city,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: 8),
                       child: Row(

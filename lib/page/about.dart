@@ -30,15 +30,17 @@ class AboutPage extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Text('Restaurant App',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+                  Text(
+                    'Restaurant App',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
                   Text('Develop by: Andi Surya'),
                   Container(
                     margin: EdgeInsets.only(top: 16),
                     child: Text(
-                        'This app was created to complete \'Belajar Fundamental Aplikasi Flutter\' courses',
-                        textAlign: TextAlign.center),
+                      'This app was created to complete \'Belajar Fundamental Aplikasi Flutter\' courses',
+                      textAlign: TextAlign.center,
+                    ),
                   )
                 ],
               ),
