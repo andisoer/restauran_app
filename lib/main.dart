@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restauran_app/data/api/api_service.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/detail.dart';
+import 'package:restauran_app/page/favorite.dart';
 import 'package:restauran_app/page/home.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/page/splash.dart';
@@ -57,7 +58,11 @@ class MyApp extends StatelessWidget {
               ],
               child: DetailPage(),
             ),
-        AboutPage.routeName: (context) => AboutPage()
+        AboutPage.routeName: (context) => AboutPage(),
+        FavoritePage.routeName: (context) => ChangeNotifierProvider(
+              create: (_) => ListRestaurantProvider(apiService: ApiService(),),
+              child: HomePage(),
+            ),
       },
     );
   }

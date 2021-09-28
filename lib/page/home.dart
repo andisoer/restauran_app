@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/page/favorite.dart';
 import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/widget/item_restaurant.dart';
@@ -73,6 +74,15 @@ class HomePage extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, FavoritePage.routeName);
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.white,
               ),
             ),
             IconButton(

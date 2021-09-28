@@ -50,7 +50,24 @@ class DetailPage extends StatelessWidget {
                 primary: Colors.white,
                 shape: CircleBorder(),
               ),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Icon(
+                  Icons.favorite_border,
+                  color: primaryColor,
+                  size: 16,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: CircleBorder(),
+              ),
+            ),
           ],
         ),
       ),
