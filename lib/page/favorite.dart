@@ -35,9 +35,9 @@ class FavoritePage extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     return Consumer<DatabaseProvider>(
       builder: (context, state, _) {
-        if (state.state == ResourceState.Loading) {
+        if (state.state == LocalResourceState.Loading) {
           return circularProgressIndicator();
-        } else if (state.state == ResourceState.HasData) {
+        } else if (state.state == LocalResourceState.HasData) {
           return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -49,9 +49,9 @@ class FavoritePage extends StatelessWidget {
             },
             itemCount: state.favorites.length,
           );
-        } else if (state.state == ResourceState.NoData) {
+        } else if (state.state == LocalResourceState.NoData) {
           return Center(child: Text(state.message));
-        } else if (state.state == ResourceState.Error) {
+        } else if (state.state == LocalResourceState.Error) {
           return Center(child: Text(state.message));
         } else {
           return Center(child: Text(''));

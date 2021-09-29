@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:restauran_app/data/local/db/database_helper.dart';
 import 'package:restauran_app/data/model/list_restaurant.dart';
 
-enum ResourceState {
+enum LocalResourceState {
   Loading, NoData, HasData, Error
 }
 
@@ -13,10 +13,10 @@ class DatabaseProvider extends ChangeNotifier {
     _getFavorites();
   }
 
-  late ResourceState _state;
+  late LocalResourceState _state;
 
   String _message = '';
-  ResourceState get state => _state;
+  LocalResourceState get state => _state;
 
   String get message => _message;
 
@@ -25,19 +25,19 @@ class DatabaseProvider extends ChangeNotifier {
 
   void _getFavorites() async {
     try {
-      _state = ResourceState.Loading;
+      _state = LocalResourceState.Loading;
       _favorites = await databaseHelper.getFavorites();
 
       if (_favorites.length > 0) {
-        _state = ResourceState.HasData;
+        _state = LocalResourceState.HasData;
       } else {
-        _state = ResourceState.NoData;
+        _state = LocalResourceState.NoData;
         _message = 'No favorited restaurant';
       }
 
       notifyListeners();
     } catch (e) {
-      _state = ResourceState.Error;
+      _state = LocalResourceState.Error;
       _message = 'Error $e';
       notifyListeners();
     }
@@ -48,7 +48,7 @@ class DatabaseProvider extends ChangeNotifier {
       await databaseHelper.insertFavorite(restaurant);
       _getFavorites();
     } catch (e) {
-      _state = ResourceState.Error;
+      _state = LocalResourceState.Error;
       _message = 'Error $e';
       notifyListeners();
     }
@@ -63,7 +63,7 @@ class DatabaseProvider extends ChangeNotifier {
     try {
 
     } catch (e) {
-      _state = ResourceState.Error;
+      _state = LocalResourceState.Error;
       _message = 'Error $e';
       notifyListeners();
     }

@@ -57,7 +57,12 @@ class MyApp extends StatelessWidget {
                   create: (_) => ReviewRestaurantProvider(
                     apiService: ApiService(),
                   ),
-                )
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => DatabaseProvider(
+                    databaseHelper: DatabaseHelper(),
+                  ),
+                ),
               ],
               child: DetailPage(),
             ),
