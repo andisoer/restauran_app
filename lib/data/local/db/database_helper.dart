@@ -25,7 +25,7 @@ class DatabaseHelper {
       description TEXT, 
       pictureId TEXT, 
       city TEXT, 
-      city DOUBLE, 
+      rating DOUBLE
       )''');
     }, version: _databaseVersion);
 

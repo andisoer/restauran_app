@@ -9,28 +9,38 @@ enum ResourceState {
 class DatabaseProvider extends ChangeNotifier {
   final DatabaseHelper databaseHelper;
 
-  DatabaseProvider({required this.databaseHelper});
+  DatabaseProvider({required this.databaseHelper}) {
+    _getFavorites();
+  }
 
   late ResourceState _state;
-  ResourceState get state => _state;
 
   String _message = '';
+  ResourceState get state => _state;
+
   String get message => _message;
 
   List<Restaurant> _favorites = [];
   List<Restaurant> get favorites => _favorites;
 
   void _getFavorites() async {
-    _favorites = await databaseHelper.getFavorites();
+    try {
+      _state = ResourceState.Loading;
+      _favorites = await databaseHelper.getFavorites();
 
-    if (_favorites.length > 0) {
-      _state = ResourceState.HasData;
-    } else {
-      _state = ResourceState.NoData;
-      _message = 'No favorited restaurant';
+      if (_favorites.length > 0) {
+        _state = ResourceState.HasData;
+      } else {
+        _state = ResourceState.NoData;
+        _message = 'No favorited restaurant';
+      }
+
+      notifyListeners();
+    } catch (e) {
+      _state = ResourceState.Error;
+      _message = 'Error $e';
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   void addBookmark(Restaurant restaurant) async {

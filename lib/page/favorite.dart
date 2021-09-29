@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restauran_app/provider/list_restaurant_provider.dart';
+import 'package:restauran_app/provider/database_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/widget/item_restaurant.dart';
@@ -12,13 +12,20 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite Restaurant'),
+        backgroundColor: primaryColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: primaryColor,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Icon(Icons.arrow_back_ios),
           ),
-          onPressed: () {},
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          'Favorite',
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: _buildList(context),
@@ -26,7 +33,7 @@ class FavoritePage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return Consumer<ListRestaurantProvider>(
+    return Consumer<DatabaseProvider>(
       builder: (context, state, _) {
         if (state.state == ResourceState.Loading) {
           return circularProgressIndicator();
@@ -37,10 +44,10 @@ class FavoritePage extends StatelessWidget {
             itemBuilder: (context, index) {
               return buildRestaurantItem(
                 context,
-                state.restaurantsResult.restaurants[index],
+                state.favorites[index],
               );
             },
-            itemCount: state.restaurantsResult.restaurants.length,
+            itemCount: state.favorites.length,
           );
         } else if (state.state == ResourceState.NoData) {
           return Center(child: Text(state.message));

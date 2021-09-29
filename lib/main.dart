@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restauran_app/data/api/api_service.dart';
+import 'package:restauran_app/data/local/db/database_helper.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/favorite.dart';
 import 'package:restauran_app/page/home.dart';
 import 'package:restauran_app/page/search.dart';
 import 'package:restauran_app/page/splash.dart';
+import 'package:restauran_app/provider/database_provider.dart';
 import 'package:restauran_app/provider/detail_restaurant_provider.dart';
 import 'package:restauran_app/provider/list_restaurant_provider.dart';
 import 'package:restauran_app/provider/review_restaurant_provider.dart';
@@ -23,9 +25,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: primaryColor,
-          accentColor: secondaryColor),
+        primarySwatch: Colors.blue,
+        primaryColor: primaryColor,
+        accentColor: secondaryColor,
+      ),
       initialRoute: SplashPage.routeName,
       routes: {
         SplashPage.routeName: (context) => SplashPage(),
@@ -60,8 +63,8 @@ class MyApp extends StatelessWidget {
             ),
         AboutPage.routeName: (context) => AboutPage(),
         FavoritePage.routeName: (context) => ChangeNotifierProvider(
-              create: (_) => ListRestaurantProvider(apiService: ApiService(),),
-              child: HomePage(),
+              create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
+              child: FavoritePage(),
             ),
       },
     );

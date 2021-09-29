@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restauran_app/style/colors.dart';
 
 class AboutPage extends StatelessWidget {
   static final routeName = 'about';
@@ -7,6 +8,7 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: primaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
