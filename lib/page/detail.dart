@@ -56,51 +56,58 @@ class DetailPage extends StatelessWidget {
             ),
             Consumer<DetailRestaurantProvider>(
               builder: (context, provider, child) {
-                return FutureBuilder<bool>(
-                  future: Provider.of<DatabaseProvider>(
-                    context,
-                    listen: false,
-                  ).isFavorited(provider.restaurantsResult.restaurant.id),
-                  builder: (context, snapshot) {
-                    var isFavorite = snapshot.data ?? false;
-                    return isFavorite
-                        ? ElevatedButton(
-                            onPressed: () {
-                              addBookmark(
-                                context,
-                                provider.restaurantsResult.restaurant,
-                              );
-                            },
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: primaryColor,
-                              size: 16,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: CircleBorder(),
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              Provider.of<DatabaseProvider>(
-                                context,
-                                listen: false,
-                              ).removeFavorite(
-                                  provider.restaurantsResult.restaurant.id);
-                            },
-                            child: Icon(
-                              Icons.favorite_border_outlined,
-                              color: primaryColor,
-                              size: 16,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: CircleBorder(),
-                            ),
-                          );
-                  },
-                );
+                if (provider.state == ResourceState.Loading) {
+                  return SizedBox.shrink();
+                } else if (provider.state == ResourceState.HasData) {
+                  return Consumer<DatabaseProvider>(
+                    builder: (context, databaseProvider, childe) {
+                      return FutureBuilder<bool>(
+                        future: databaseProvider.isFavorited(provider.restaurantsResult.restaurant.id),
+                        builder: (context, snapshot) {
+                          var isFavorite = snapshot.data ?? false;
+                          return isFavorite
+                              ? ElevatedButton(
+                                  onPressed: () {
+                                    Provider.of<DatabaseProvider>(
+                                      context,
+                                      listen: false,
+                                    ).removeFavorite(provider
+                                        .restaurantsResult.restaurant.id);
+                                  },
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: primaryColor,
+                                    size: 16,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    shape: CircleBorder(),
+                                  ),
+                                )
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    addFavorite(
+                                      context,
+                                      provider.restaurantsResult.restaurant,
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.favorite_border_outlined,
+                                    color: primaryColor,
+                                    size: 16,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    shape: CircleBorder(),
+                                  ),
+                                );
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
               },
             ),
           ],
@@ -479,7 +486,7 @@ class DetailPage extends StatelessWidget {
         .fetchDetailRestaurant(restaurantId);
   }
 
-  void addBookmark(BuildContext context, detail.Restaurant restaurant) {
+  void addFavorite(BuildContext context, detail.Restaurant restaurant) {
     var restaurantBookmark = Restaurant(
       id: restaurant.id,
       name: restaurant.name,

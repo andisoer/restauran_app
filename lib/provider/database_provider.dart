@@ -61,7 +61,8 @@ class DatabaseProvider extends ChangeNotifier {
 
   void removeFavorite(String id) async {
     try {
-
+      await databaseHelper.removeFavorite(id);
+      _getFavorites();
     } catch (e) {
       _state = LocalResourceState.Error;
       _message = 'Error $e';

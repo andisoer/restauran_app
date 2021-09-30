@@ -39,6 +39,7 @@ class FavoritePage extends StatelessWidget {
           return circularProgressIndicator();
         } else if (state.state == LocalResourceState.HasData) {
           return ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
