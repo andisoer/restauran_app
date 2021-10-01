@@ -22,56 +22,53 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: primaryColor,
-        accentColor: secondaryColor,
-      ),
-      initialRoute: SplashPage.routeName,
-      routes: {
-        SplashPage.routeName: (context) => SplashPage(),
-        HomePage.routeName: (context) => ChangeNotifierProvider(
-              create: (_) => ListRestaurantProvider(apiService: ApiService()),
-              child: HomePage(),
-            ),
-        SearchPage.routeName: (context) => ChangeNotifierProvider(
-              create: (_) => SearchRestaurantProvider(
-                apiService: ApiService(),
-                query: ModalRoute.of(context)?.settings.arguments as String,
-              ),
-              child: SearchPage(
-                ModalRoute.of(context)?.settings.arguments as String,
-              ),
-            ),
-        DetailPage.routeName: (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => DetailRestaurantProvider(
-                      apiService: ApiService(),
-                      restaurantId:
-                          ModalRoute.of(context)?.settings.arguments as String),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ListRestaurantProvider(apiService: ApiService()),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ReviewRestaurantProvider(
+            apiService: ApiService(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DatabaseProvider(
+            databaseHelper: DatabaseHelper(),
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: primaryColor,
+          accentColor: secondaryColor,
+        ),
+        initialRoute: SplashPage.routeName,
+        routes: {
+          SplashPage.routeName: (context) => SplashPage(),
+          HomePage.routeName: (context) => HomePage(),
+          SearchPage.routeName: (context) => ChangeNotifierProvider(
+                create: (_) => SearchRestaurantProvider(
+                  apiService: ApiService(),
+                  query: ModalRoute.of(context)?.settings.arguments as String,
                 ),
-                ChangeNotifierProvider(
-                  create: (_) => ReviewRestaurantProvider(
+                child: SearchPage(
+                  ModalRoute.of(context)?.settings.arguments as String,
+                ),
+              ),
+          DetailPage.routeName: (context) => ChangeNotifierProvider(
+                create: (_) => DetailRestaurantProvider(
                     apiService: ApiService(),
-                  ),
-                ),
-                ChangeNotifierProvider(
-                  create: (_) => DatabaseProvider(
-                    databaseHelper: DatabaseHelper(),
-                  ),
-                ),
-              ],
-              child: DetailPage(),
-            ),
-        AboutPage.routeName: (context) => AboutPage(),
-        FavoritePage.routeName: (context) => ChangeNotifierProvider(
-              create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
-              child: FavoritePage(),
-            ),
-      },
+                    restaurantId:
+                        ModalRoute.of(context)?.settings.arguments as String),
+                child: DetailPage(),
+              ),
+          AboutPage.routeName: (context) => AboutPage(),
+          FavoritePage.routeName: (context) => FavoritePage(),
+        },
+      ),
     );
   }
 }
