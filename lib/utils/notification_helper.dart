@@ -66,15 +66,13 @@ class NotificationHelper {
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, titleRestaurant, platformChannelSpecifics,
-        payload: json.encode(restaurants.toJson()));
+        payload: restaurant.id);
   }
 
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
           (String payload) async {
-        var data = RestaurantResult.fromJson(json.decode(payload));
-        var article = data.restaurants[0];
-        Navigation.intentWithData(route, article);
+        Navigation.intentWithData(route, payload);
       },
     );
   }
