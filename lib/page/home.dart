@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/common/common.dart';
 import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/favorite.dart';
 import 'package:restauran_app/utils/notification_helper.dart';
@@ -133,10 +134,9 @@ class _HomePageState extends State<HomePage> {
           ),
           child: TextFormField(
             onFieldSubmitted: (query) => {
-              Navigator.pushNamed(
-                context,
+              Navigation.intentWithData(
                 SearchPage.routeName,
-                arguments: query,
+                query,
               )
             },
             decoration: InputDecoration(
@@ -197,7 +197,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _notificationHelper.configureSelectNotificationSubject(DetailPage.routeName);
+    _notificationHelper
+        .configureSelectNotificationSubject(DetailPage.routeName);
   }
 
   @override
