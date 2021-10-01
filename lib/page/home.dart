@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/page/detail.dart';
 import 'package:restauran_app/page/favorite.dart';
+import 'package:restauran_app/utils/notification_helper.dart';
 import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/widget/item_restaurant.dart';
@@ -9,8 +11,15 @@ import 'package:restauran_app/provider/list_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/home';
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -183,5 +192,17 @@ class HomePage extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void initState() {
+    _notificationHelper.configureSelectNotificationSubject(DetailPage.routeName);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }

@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restauran_app/provider/preferences_provider.dart';
+import 'package:restauran_app/provider/scheduling_provider.dart';
 import 'package:restauran_app/style/colors.dart';
+import 'package:restauran_app/widget/custom_dialog.dart';
 
 class AboutPage extends StatelessWidget {
   static final routeName = 'about';
@@ -43,7 +49,47 @@ class AboutPage extends StatelessWidget {
                       'This app was created to complete \'Belajar Fundamental Aplikasi Flutter\' courses',
                       textAlign: TextAlign.center,
                     ),
-                  )
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 12),
+                    child: Divider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Setting',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Daily Restaurant Reminder'),
+                      Consumer<PreferencesProvider>(
+                        builder: (context, provider, child) {
+                          return Consumer<SchedulingProvider>(
+                            builder: (context, scheduled, _) {
+                              return Switch.adaptive(
+                                value: provider.isDailyRestaurantsActive,
+                                onChanged: (value) async {
+                                  if (Platform.isIOS) {
+                                    customDialog(context);
+                                  } else {
+                                    scheduled.scheduledRestaurant(value);
+                                    provider.enableDailyRestaurants(value);
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
