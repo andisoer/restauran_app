@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restauran_app/common/common.dart';
+import 'package:restauran_app/page/detail.dart';
+import 'package:restauran_app/page/favorite.dart';
+import 'package:restauran_app/utils/notification_helper.dart';
 import 'package:restauran_app/widget/common.dart';
 import 'package:restauran_app/page/about.dart';
 import 'package:restauran_app/widget/item_restaurant.dart';
@@ -8,8 +12,15 @@ import 'package:restauran_app/provider/list_restaurant_provider.dart';
 import 'package:restauran_app/style/colors.dart';
 import 'package:restauran_app/style/style.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/home';
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +88,15 @@ class HomePage extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
+                Navigator.pushNamed(context, FavoritePage.routeName);
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
                 Navigator.pushNamed(context, AboutPage.routeName);
               },
               icon: Icon(
@@ -114,10 +134,9 @@ class HomePage extends StatelessWidget {
           ),
           child: TextFormField(
             onFieldSubmitted: (query) => {
-              Navigator.pushNamed(
-                context,
+              Navigation.intentWithData(
                 SearchPage.routeName,
-                arguments: query,
+                query,
               )
             },
             decoration: InputDecoration(
@@ -173,5 +192,18 @@ class HomePage extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(DetailPage.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }
