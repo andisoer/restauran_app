@@ -1,16 +1,14 @@
-# restauran_app
+## restauran_app 
+### Submission for Dicoding Belajar Fundamental Aplikasi Flutter
 
-A new Flutter application.
+Tech Stack:
+1. Flutter
+2. [(Provider)](https://pub.dev/packages/provider) for State Management
+3. [(http)](https://pub.dev/packages/http) for Rest API 
+4. [sqflite](https://pub.dev/packages/sqflite) for Local Database
+5. [flutter_local_notification](https://pub.dev/packages/flutter_local_notifications) for Notification 
+6. [android_alarm_manager](https://pub.dev/packages/android_alarm_manager_plus) plus for Alarm
 
-## Getting Started
+### Preview
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Star this repository would be really appreciated
