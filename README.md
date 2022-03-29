@@ -10,5 +10,10 @@ Tech Stack:
 6. [android_alarm_manager](https://pub.dev/packages/android_alarm_manager_plus) plus for Alarm
 
 ### Preview
+|![Preview 1](app_image_preview/Screenshot_20220329-131613.png)|![Preview 1](app_image_preview/Screenshot_20220329-131613.png)|
+|--------------------------------------------------------------|--------------------------------------------------------------|
+|                     Preview 1                                |                          Preview 2                           |
+|![Preview 1](app_image_preview/Screenshot_20220329-131613.png)|![Preview 1](app_image_preview/Screenshot_20220329-131613.png)|
+|                     Preview 3                                |                          Preview 4                           |
 
-Star this repository would be really appreciated
+Star this repository would be really appreciated :DD
